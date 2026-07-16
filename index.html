@@ -242,21 +242,19 @@
       gap: 4px;
     }
 
-    .person-tag .remove {
-      cursor: pointer;
-      font-weight: bold;
-      color: #a0aec0;
-      hover: color #718096;
-    }
-
     .person-tag .remove:hover {
       color: #718096;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
     }
 
     .assign-persons-btn {
       font-size: 11px;
       padding: 4px 8px;
-      margin-top: 6px;
     }
 
     .people-list {
@@ -460,6 +458,18 @@
       font-weight: 700;
       color: #667eea;
     }
+
+    .tax-tip-toggle {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tax-tip-toggle button {
+      flex: 1;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
   </style>
 </head>
 <body>
@@ -476,7 +486,7 @@
           <h2 class="section-title">People</h2>
           <div class="form-group full">
             <div class="input-wrapper">
-              <input type="text" id="personName" placeholder="e.g., Alice" />
+              <input type="text" id="personName" placeholder="e.g., Alice" onkeypress="if(event.key === 'Enter') addPerson()" />
               <button class="btn btn-primary btn-small" onclick="addPerson()">Add</button>
             </div>
           </div>
@@ -496,12 +506,12 @@
 
           <div class="form-group full">
             <label>Item Name</label>
-            <input type="text" id="itemName" placeholder="e.g., Caesar Salad" />
+            <input type="text" id="itemName" placeholder="e.g., Caesar Salad" onkeypress="if(event.key === 'Enter') addItem()" />
           </div>
 
           <div class="form-group full">
             <label>Quantity</label>
-            <input type="number" id="itemQuantity" value="1" min="1" step="1" />
+            <input type="number" id="itemQuantity" value="1" min="1" step="1" onkeypress="if(event.key === 'Enter') addItem()" />
           </div>
 
           <label>Price</label>
@@ -512,7 +522,7 @@
 
           <div class="form-group full">
             <label id="priceLabel">Price per item</label>
-            <input type="number" id="itemPrice" placeholder="12.50" min="0" step="0.01" />
+            <input type="number" id="itemPrice" placeholder="12.50" min="0" step="0.01" onkeypress="if(event.key === 'Enter') addItem()" />
           </div>
 
           <button class="btn btn-primary" onclick="addItem()" style="align-self: flex-start;">Add Item</button>
@@ -531,13 +541,23 @@
         <!-- Settings -->
         <div class="section">
           <h2 class="section-title">Settings</h2>
-          <div class="form-group full">
-            <label>Tax (%)</label>
-            <input type="number" id="taxPercent" value="0" min="0" max="100" step="0.1" onchange="calculate()" />
+
+          <label>Tax</label>
+          <div class="tax-tip-toggle">
+            <button class="toggle-btn active" onclick="setTaxMode('percent')">%</button>
+            <button class="toggle-btn" onclick="setTaxMode('flat')">Flat $</button>
           </div>
           <div class="form-group full">
-            <label>Tip (%)</label>
-            <input type="number" id="tipPercent" value="0" min="0" max="100" step="0.1" onchange="calculate()" />
+            <input type="number" id="taxAmount" value="0" min="0" step="0.01" onchange="calculate()" onkeypress="if(event.key === 'Enter') calculate()" />
+          </div>
+
+          <label style="margin-top: 12px;">Tip</label>
+          <div class="tax-tip-toggle">
+            <button class="toggle-btn active" onclick="setTipMode('percent')">%</button>
+            <button class="toggle-btn" onclick="setTipMode('flat')">Flat $</button>
+          </div>
+          <div class="form-group full">
+            <input type="number" id="tipAmount" value="0" min="0" step="0.01" onchange="calculate()" onkeypress="if(event.key === 'Enter') calculate()" />
           </div>
         </div>
 
@@ -551,11 +571,11 @@
             </div>
             <div class="summary-box">
               <div class="summary-label">Tax</div>
-              <div class="summary-value"><span class="currency">$</span><span id="taxAmount">0.00</span></div>
+              <div class="summary-value"><span class="currency">$</span><span id="taxDisplay">0.00</span></div>
             </div>
             <div class="summary-box">
               <div class="summary-label">Tip</div>
-              <div class="summary-value"><span class="currency">$</span><span id="tipAmount">0.00</span></div>
+              <div class="summary-value"><span class="currency">$</span><span id="tipDisplay">0.00</span></div>
             </div>
             <div class="summary-box" style="border-left-color: #764ba2;">
               <div class="summary-label">Total</div>
@@ -590,19 +610,76 @@
     </div>
   </div>
 
+  <!-- Modal for editing items -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <div class="modal-title">Edit Item</div>
+      <div class="form-group full">
+        <label>Item Name</label>
+        <input type="text" id="editItemName" />
+      </div>
+      <div class="form-group full">
+        <label>Quantity</label>
+        <input type="number" id="editItemQuantity" min="1" step="1" />
+      </div>
+      <label>Price</label>
+      <div class="pricing-toggle">
+        <button class="toggle-btn active" onclick="setEditPricingMode('individual')">Price Each</button>
+        <button class="toggle-btn" onclick="setEditPricingMode('total')">Total Price</button>
+      </div>
+      <div class="form-group full">
+        <label id="editPriceLabel">Price per item</label>
+        <input type="number" id="editItemPrice" min="0" step="0.01" />
+      </div>
+      <div class="modal-buttons">
+        <button class="btn btn-secondary btn-small" onclick="closeEditModal()">Cancel</button>
+        <button class="btn btn-primary btn-small" onclick="saveEdit()">Save</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let people = [];
     let items = [];
     let pricingMode = 'individual';
+    let editPricingMode = 'individual';
     let currentEditingItemId = null;
+    let currentAssigningItemId = null;
+    let taxMode = 'percent';
+    let tipMode = 'percent';
 
     function setPricingMode(mode) {
       pricingMode = mode;
       const label = document.getElementById('priceLabel');
       label.textContent = mode === 'individual' ? 'Price per item' : 'Total price for all';
-
-      document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.pricing-toggle .toggle-btn').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
+    }
+
+    function setEditPricingMode(mode) {
+      editPricingMode = mode;
+      const label = document.getElementById('editPriceLabel');
+      label.textContent = mode === 'individual' ? 'Price per item' : 'Total price for all';
+      document.querySelectorAll('#editModal .pricing-toggle .toggle-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function setTaxMode(mode) {
+      taxMode = mode;
+      const label = document.getElementById('taxAmount');
+      label.placeholder = mode === 'percent' ? '0' : '0.00';
+      document.querySelectorAll('.tax-tip-toggle')[0].querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      calculate();
+    }
+
+    function setTipMode(mode) {
+      tipMode = mode;
+      const label = document.getElementById('tipAmount');
+      label.placeholder = mode === 'percent' ? '0' : '0.00';
+      document.querySelectorAll('.tax-tip-toggle')[1].querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      calculate();
     }
 
     function addPerson() {
@@ -674,8 +751,51 @@
       calculate();
     }
 
-    function openAssignModal(itemId) {
+    function openEditModal(itemId) {
+      const item = items.find(i => i.id === itemId);
       currentEditingItemId = itemId;
+      editPricingMode = 'individual';
+
+      document.getElementById('editItemName').value = item.name;
+      document.getElementById('editItemQuantity').value = item.quantity;
+      document.getElementById('editItemPrice').value = item.unitPrice.toFixed(2);
+
+      document.querySelectorAll('#editModal .pricing-toggle .toggle-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('#editModal .pricing-toggle .toggle-btn')[0].classList.add('active');
+      document.getElementById('editPriceLabel').textContent = 'Price per item';
+
+      document.getElementById('editModal').classList.add('active');
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').classList.remove('active');
+      currentEditingItemId = null;
+    }
+
+    function saveEdit() {
+      const name = document.getElementById('editItemName').value.trim();
+      const quantity = parseInt(document.getElementById('editItemQuantity').value);
+      const price = parseFloat(document.getElementById('editItemPrice').value);
+
+      if (!name || !price || price < 0) {
+        alert('Please enter valid values');
+        return;
+      }
+
+      const item = items.find(i => i.id === currentEditingItemId);
+      if (item) {
+        item.name = name;
+        item.quantity = quantity;
+        item.unitPrice = editPricingMode === 'individual' ? price : price / quantity;
+      }
+
+      closeEditModal();
+      renderItemList();
+      calculate();
+    }
+
+    function openAssignModal(itemId) {
+      currentAssigningItemId = itemId;
       const item = items.find(i => i.id === itemId);
       document.getElementById('modalTitle').textContent = `Assign "${item.name}" to people`;
 
@@ -695,12 +815,12 @@
 
     function closeModal() {
       document.getElementById('assignModal').classList.remove('active');
-      currentEditingItemId = null;
+      currentAssigningItemId = null;
     }
 
     function saveAssignment() {
       const selectedPersons = Array.from(document.querySelectorAll('#modalCheckboxes input:checked')).map(cb => parseInt(cb.value));
-      const item = items.find(i => i.id === currentEditingItemId);
+      const item = items.find(i => i.id === currentAssigningItemId);
       if (item) {
         item.persons = selectedPersons;
       }
@@ -750,30 +870,44 @@
                 ${personNames.map(name => `<div class="person-tag">${name}</div>`).join('')}
               </div>
             ` : ''}
-            <button class="btn btn-secondary btn-small assign-persons-btn" onclick="openAssignModal(${item.id})">
-              ${personNames.length > 0 ? 'Edit people' : 'Assign people'}
-            </button>
+            <div class="item-actions">
+              <button class="btn btn-secondary btn-small assign-persons-btn" onclick="openAssignModal(${item.id})">
+                ${personNames.length > 0 ? 'Edit people' : 'Assign people'}
+              </button>
+              <button class="btn btn-secondary btn-small assign-persons-btn" onclick="openEditModal(${item.id})">
+                Edit
+              </button>
+            </div>
           </div>
         `;
       }).join('');
     }
 
     function calculate() {
-      // Calculate subtotal
       const subtotal = items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
 
-      // Calculate tax and tip
-      const taxPercent = parseFloat(document.getElementById('taxPercent').value) || 0;
-      const tipPercent = parseFloat(document.getElementById('tipPercent').value) || 0;
+      let taxAmount = 0;
+      let tipAmount = 0;
 
-      const taxAmount = subtotal * (taxPercent / 100);
-      const tipAmount = (subtotal + taxAmount) * (tipPercent / 100);
+      if (taxMode === 'percent') {
+        const taxPercent = parseFloat(document.getElementById('taxAmount').value) || 0;
+        taxAmount = subtotal * (taxPercent / 100);
+      } else {
+        taxAmount = parseFloat(document.getElementById('taxAmount').value) || 0;
+      }
+
+      if (tipMode === 'percent') {
+        const tipPercent = parseFloat(document.getElementById('tipAmount').value) || 0;
+        tipAmount = (subtotal + taxAmount) * (tipPercent / 100);
+      } else {
+        tipAmount = parseFloat(document.getElementById('tipAmount').value) || 0;
+      }
+
       const total = subtotal + taxAmount + tipAmount;
 
-      // Update summary
       document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-      document.getElementById('taxAmount').textContent = taxAmount.toFixed(2);
-      document.getElementById('tipAmount').textContent = tipAmount.toFixed(2);
+      document.getElementById('taxDisplay').textContent = taxAmount.toFixed(2);
+      document.getElementById('tipDisplay').textContent = tipAmount.toFixed(2);
       document.getElementById('total').textContent = total.toFixed(2);
 
       // Calculate per-person breakdown
@@ -796,8 +930,24 @@
 
       // Apply tax and tip proportionally
       Object.values(breakdown).forEach(person => {
-        const personTax = person.subtotal * (taxPercent / 100);
-        const personTip = (person.subtotal + personTax) * (tipPercent / 100);
+        let personTax, personTip;
+
+        if (taxMode === 'percent') {
+          const taxPercent = parseFloat(document.getElementById('taxAmount').value) || 0;
+          personTax = person.subtotal * (taxPercent / 100);
+        } else {
+          const totalSubtotal = Object.values(breakdown).reduce((sum, p) => sum + p.subtotal, 0);
+          personTax = totalSubtotal > 0 ? (person.subtotal / totalSubtotal) * taxAmount : 0;
+        }
+
+        if (tipMode === 'percent') {
+          const tipPercent = parseFloat(document.getElementById('tipAmount').value) || 0;
+          personTip = (person.subtotal + personTax) * (tipPercent / 100);
+        } else {
+          const totalSubtotal = Object.values(breakdown).reduce((sum, p) => sum + p.subtotal, 0);
+          personTip = totalSubtotal > 0 ? (person.subtotal / totalSubtotal) * tipAmount : 0;
+        }
+
         person.tax = personTax;
         person.tip = personTip;
         person.total = person.subtotal + personTax + personTip;
