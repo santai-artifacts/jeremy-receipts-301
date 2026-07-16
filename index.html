@@ -547,7 +547,7 @@
     }
 
     .person-breakdown {
-      background: #fffdf7;
+      background: white;
       border: 2px solid #c62828;
       border-radius: 12px;
       padding: 14px;
@@ -642,7 +642,7 @@
           </div>
           <div class="people-list" id="peopleList">
             <div class="empty-state">
-              <div class="empty-state-icon">[cartoon people drawing]</div>
+              <div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#c62828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="4"/><path d="M8 20h8v12H8z"/><circle cx="36" cy="10" r="4"/><path d="M32 20h8v12h-8z"/></svg></div>
               <p>Add people to get started</p>
             </div>
           </div>
@@ -679,7 +679,7 @@
 
           <div class="item-list" id="itemList" style="margin-top: 20px;">
             <div class="empty-state">
-              <div class="empty-state-icon">[cartoon food drawing]</div>
+              <div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#c62828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14h32v22c0 2-2 4-4 4H12c-2 0-4-2-4-4V14z"/><circle cx="16" cy="10" r="2.5" fill="#c62828"/><circle cx="24" cy="8" r="2.5" fill="#c62828"/><circle cx="32" cy="10" r="2.5" fill="#c62828"/></svg></div>
               <p>Add items to get started</p>
             </div>
           </div>
@@ -742,7 +742,7 @@
           </div>
           <div id="breakdownList" style="flex: 1; overflow-y: auto;">
             <div class="empty-state">
-              <div class="empty-state-icon">[cartoon notepad drawing]</div>
+              <div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#c62828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="32" height="36" rx="2"/><line x1="14" y1="14" x2="34" y2="14"/><line x1="14" y1="20" x2="34" y2="20"/><line x1="14" y1="26" x2="34" y2="26"/><line x1="14" y1="32" x2="28" y2="32"/></svg></div>
               <p>Breakdown will appear here</p>
             </div>
           </div>
@@ -985,7 +985,7 @@
     function renderPeople() {
       const list = document.getElementById('peopleList');
       if (people.length === 0) {
-        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👤</div><p>Add people to get started</p></div>';
+        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#c62828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="4"/><path d="M8 20h8v12H8z"/><circle cx="36" cy="10" r="4"/><path d="M32 20h8v12h-8z"/></svg></div><p>Add people to get started</p></div>';
         return;
       }
 
@@ -1000,7 +1000,7 @@
     function renderItemList() {
       const list = document.getElementById('itemList');
       if (items.length === 0) {
-        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🍴</div><p>Add items to get started</p></div>';
+        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#c62828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14h32v22c0 2-2 4-4 4H12c-2 0-4-2-4-4V14z"/><circle cx="16" cy="10" r="2.5" fill="#c62828"/><circle cx="24" cy="8" r="2.5" fill="#c62828"/><circle cx="32" cy="10" r="2.5" fill="#c62828"/></svg></div><p>Add items to get started</p></div>';
         return;
       }
 
@@ -1114,7 +1114,7 @@
       const validPeople = Object.values(breakdown).filter(person => person.subtotal > 0);
 
       if (validPeople.length === 0) {
-        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">[cartoon notepad drawing]</div><p>Breakdown will appear here</p></div>';
+        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#c62828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="32" height="36" rx="2"/><line x1="14" y1="14" x2="34" y2="14"/><line x1="14" y1="20" x2="34" y2="20"/><line x1="14" y1="26" x2="34" y2="26"/><line x1="14" y1="32" x2="28" y2="32"/></svg></div><p>Breakdown will appear here</p></div>';
         return;
       }
 
