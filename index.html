@@ -19,6 +19,7 @@
       background: linear-gradient(135deg, #faf6f1 0%, #fffbf5 50%, #f5f0eb 100%);
       min-height: 100vh;
       padding: 20px;
+      padding-top: 90px;
       background-attachment: fixed;
     }
 
@@ -45,7 +46,7 @@
       background: #fffdf7;
       border-radius: 20px;
       box-shadow: 0 15px 40px rgba(196, 30, 58, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-      overflow: hidden;
+      overflow: visible;
       border: 4px solid #c62828;
       position: relative;
     }
@@ -607,10 +608,14 @@
     }
 
     #spiralCoil {
-      display: block;
+      position: absolute;
+      top: -72px;
+      left: 0;
+      right: 0;
       width: 100%;
-      height: 78px;
-      overflow: visible;
+      height: 130px;
+      z-index: 20;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -1176,53 +1181,59 @@
       if (!svg) return;
       const W = svg.parentElement.getBoundingClientRect().width;
       if (!W) return;
-      svg.setAttribute('viewBox', `0 0 ${W} 78`);
-      svg.setAttribute('preserveAspectRatio', 'none');
 
-      const HOLE_SP = 36;   // px between holes
-      const PAPER_Y = 62;   // y of paper surface / hole centers
-      const ARCH_TOP = 7;   // y at peak of front arches
-      const BACK_Y = 72;    // y at nadir of back arches
+      const HOLE_SP = 46;   // spacing between holes — large, round loops
+      const PAPER_Y = 72;   // paper line, aligns with container top
+      const ARCH_TOP = 9;   // peak of each arch
+      const SVG_H = 130;
       const numHoles = Math.ceil(W / HOLE_SP) + 2;
+
+      svg.setAttribute('viewBox', `0 0 ${W} ${SVG_H}`);
+
       const el = [];
 
-      // Back arcs — behind paper, visible only as a faint hint below paper line
-      for (let i = 1; i < numHoles - 1; i += 2) {
-        const x1 = i * HOLE_SP, x2 = (i + 1) * HOLE_SP;
-        el.push(`<path d="M${x1},${PAPER_Y} C${x1},${BACK_Y} ${x2},${BACK_Y} ${x2},${PAPER_Y}" stroke="#b8b8b8" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.45"/>`);
+      // Clip everything above the paper line — keeps arch strokes from bleeding into the header
+      el.push(`<defs><clipPath id="abovePaper"><rect x="-20" y="0" width="${W + 40}" height="${PAPER_Y + 1}"/></clipPath></defs>`);
+      el.push(`<g clip-path="url(#abovePaper)">`);
+
+      // Every adjacent hole pair gets its own arch — this is what makes the loops connect.
+      // 5 rendering passes, back to front, for a 3D metallic tube look.
+
+      // Pass 1: drop shadow (offset, translucent)
+      for (let i = 0; i < numHoles - 1; i++) {
+        const x1 = i * HOLE_SP, x2 = x1 + HOLE_SP;
+        el.push(`<path d="M${x1+3},${PAPER_Y+1} C${x1+3},${ARCH_TOP+5} ${x2+3},${ARCH_TOP+5} ${x2+3},${PAPER_Y+1}" stroke="#000" stroke-width="11" fill="none" stroke-linecap="round" opacity="0.1"/>`);
+      }
+      // Pass 2: dark outer edge (shadow side of tube)
+      for (let i = 0; i < numHoles - 1; i++) {
+        const x1 = i * HOLE_SP, x2 = x1 + HOLE_SP;
+        el.push(`<path d="M${x1},${PAPER_Y} C${x1},${ARCH_TOP} ${x2},${ARCH_TOP} ${x2},${PAPER_Y}" stroke="#323232" stroke-width="13" fill="none" stroke-linecap="round"/>`);
+      }
+      // Pass 3: main gray body
+      for (let i = 0; i < numHoles - 1; i++) {
+        const x1 = i * HOLE_SP, x2 = x1 + HOLE_SP;
+        el.push(`<path d="M${x1},${PAPER_Y} C${x1},${ARCH_TOP} ${x2},${ARCH_TOP} ${x2},${PAPER_Y}" stroke="#ababab" stroke-width="10" fill="none" stroke-linecap="round"/>`);
+      }
+      // Pass 4: mid highlight
+      for (let i = 0; i < numHoles - 1; i++) {
+        const x1 = i * HOLE_SP, x2 = x1 + HOLE_SP;
+        el.push(`<path d="M${x1+2},${PAPER_Y-5} C${x1+3},${ARCH_TOP+9} ${x2-3},${ARCH_TOP+9} ${x2-2},${PAPER_Y-5}" stroke="#d8d8d8" stroke-width="5" fill="none" stroke-linecap="round"/>`);
+      }
+      // Pass 5: specular top highlight
+      for (let i = 0; i < numHoles - 1; i++) {
+        const x1 = i * HOLE_SP, x2 = x1 + HOLE_SP;
+        el.push(`<path d="M${x1+5},${PAPER_Y-11} C${x1+7},${ARCH_TOP+15} ${x2-7},${ARCH_TOP+15} ${x2-5},${PAPER_Y-11}" stroke="#f4f4f4" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.92"/>`);
       }
 
-      // Paper cover — hides most of back arcs, uses container background
-      el.push(`<rect x="-4" y="${PAPER_Y + 5}" width="${W + 8}" height="20" fill="#fffdf7"/>`);
+      el.push(`</g>`);
 
-      // Front arches — drawn in 5 passes for 3D tube look
-      for (let i = 0; i < numHoles - 1; i += 2) {
-        const x1 = i * HOLE_SP, x2 = (i + 1) * HOLE_SP;
-        const cp = ARCH_TOP;
-
-        // 1. Drop shadow
-        el.push(`<path d="M${x1+2},${PAPER_Y+3} C${x1+2},${cp+5} ${x2+2},${cp+5} ${x2+2},${PAPER_Y+3}" stroke="#333" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.13"/>`);
-        // 2. Dark outer border (tube edge)
-        el.push(`<path d="M${x1},${PAPER_Y} C${x1},${cp} ${x2},${cp} ${x2},${PAPER_Y}" stroke="#4a4a4a" stroke-width="11" fill="none" stroke-linecap="round"/>`);
-        // 3. Main gray body
-        el.push(`<path d="M${x1},${PAPER_Y} C${x1},${cp} ${x2},${cp} ${x2},${PAPER_Y}" stroke="#a0a0a0" stroke-width="8.5" fill="none" stroke-linecap="round"/>`);
-        // 4. Mid highlight
-        el.push(`<path d="M${x1+2},${PAPER_Y-4} C${x1+3},${cp+8} ${x2-3},${cp+8} ${x2-2},${PAPER_Y-4}" stroke="#d0d0d0" stroke-width="4" fill="none" stroke-linecap="round"/>`);
-        // 5. Specular top highlight
-        el.push(`<path d="M${x1+4.5},${PAPER_Y-9} C${x1+5.5},${cp+13} ${x2-5.5},${cp+13} ${x2-4.5},${PAPER_Y-9}" stroke="#efefef" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.85"/>`);
-      }
-
-      // Holes
+      // Holes — drawn outside clip so they straddle the paper line cleanly
       for (let i = 0; i < numHoles; i++) {
         const x = i * HOLE_SP;
-        // Hole shadow
-        el.push(`<circle cx="${x+1.5}" cy="${PAPER_Y+2.5}" r="8" fill="rgba(0,0,0,0.18)"/>`);
-        // Hole white
-        el.push(`<circle cx="${x}" cy="${PAPER_Y}" r="7.5" fill="white" stroke="#c0c0c0" stroke-width="2"/>`);
-        // Wire cross-section dot
-        el.push(`<circle cx="${x}" cy="${PAPER_Y}" r="3.5" fill="#888" stroke="#555" stroke-width="1"/>`);
-        // Wire dot highlight
-        el.push(`<circle cx="${x - 1}" cy="${PAPER_Y - 1}" r="1.2" fill="#ccc"/>`);
+        el.push(`<circle cx="${x+2}" cy="${PAPER_Y+3}" r="9" fill="rgba(0,0,0,0.22)"/>`);
+        el.push(`<circle cx="${x}" cy="${PAPER_Y}" r="8.5" fill="white" stroke="#b0b0b0" stroke-width="2.5"/>`);
+        el.push(`<circle cx="${x}" cy="${PAPER_Y}" r="4" fill="#7e7e7e" stroke="#4a4a4a" stroke-width="1"/>`);
+        el.push(`<circle cx="${x-1.5}" cy="${PAPER_Y-2}" r="1.6" fill="#dedede"/>`);
       }
 
       svg.innerHTML = el.join('');
