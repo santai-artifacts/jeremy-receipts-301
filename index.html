@@ -736,7 +736,10 @@
 
         <!-- Per-Person Breakdown -->
         <div class="section" style="margin-top: 20px;">
-          <h2 class="section-title">Who Owes What</h2>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h2 class="section-title" style="margin-bottom: 0;">Who Owes What</h2>
+            <button class="btn btn-primary btn-small" onclick="copyBreakdown()" style="margin-top: 10px;">Copy</button>
+          </div>
           <div id="breakdownList" style="flex: 1; overflow-y: auto;">
             <div class="empty-state">
               <div class="empty-state-icon">[cartoon notepad drawing]</div>
@@ -1111,7 +1114,7 @@
       const validPeople = Object.values(breakdown).filter(person => person.subtotal > 0);
 
       if (validPeople.length === 0) {
-        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Breakdown will appear here</p></div>';
+        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">[cartoon notepad drawing]</div><p>Breakdown will appear here</p></div>';
         return;
       }
 
@@ -1130,6 +1133,49 @@
           </div>
         </div>
       `).join('');
+
+      // Store breakdown for copy function
+      window.currentBreakdown = validPeople;
+    }
+
+    function copyBreakdown() {
+      if (!window.currentBreakdown || window.currentBreakdown.length === 0) {
+        alert('No breakdown to copy');
+        return;
+      }
+
+      const subtotal = document.getElementById('subtotal').textContent;
+      const tax = document.getElementById('taxDisplay').textContent;
+      const tip = document.getElementById('tipDisplay').textContent;
+      const total = document.getElementById('total').textContent;
+
+      let text = 'Receipt Breakdown\n';
+      text += '================\n\n';
+
+      window.currentBreakdown.forEach(person => {
+        text += `${person.name}\n`;
+        text += `Items: ${person.items.join(', ')}\n`;
+        text += `Subtotal: $${person.subtotal.toFixed(2)}\n`;
+        text += `Tax & Tip: $${(person.tax + person.tip).toFixed(2)}\n`;
+        text += `Total: $${person.total.toFixed(2)}\n\n`;
+      });
+
+      text += '================\n';
+      text += `Subtotal: $${subtotal}\n`;
+      text += `Tax: $${tax}\n`;
+      text += `Tip: $${tip}\n`;
+      text += `Total: $${total}\n`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }).catch(() => {
+        alert('Failed to copy. Please try again.');
+      });
     }
 
     // Initial render
