@@ -29,8 +29,14 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: repeating-linear-gradient(45deg, #c41e3a 0px, #c41e3a 20px, white 20px, white 40px);
-      opacity: 0.08;
+      background-image:
+        linear-gradient(45deg, #c41e3a 25%, transparent 25%),
+        linear-gradient(-45deg, #c41e3a 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #c41e3a 75%),
+        linear-gradient(-45deg, transparent 75%, #c41e3a 75%);
+      background-size: 30px 30px;
+      background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
+      opacity: 0.06;
       pointer-events: none;
       z-index: -1;
     }
@@ -52,8 +58,14 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 12px;
-      background: repeating-linear-gradient(90deg, #c41e3a 0px, #c41e3a 20px, white 20px, white 40px);
+      height: 15px;
+      background-image:
+        linear-gradient(45deg, #c41e3a 25%, white 25%),
+        linear-gradient(-45deg, #c41e3a 25%, white 25%),
+        linear-gradient(45deg, white 75%, #c41e3a 75%),
+        linear-gradient(-45deg, white 75%, #c41e3a 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
       z-index: 1;
     }
 
@@ -63,14 +75,25 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 12px;
-      background: repeating-linear-gradient(90deg, #c41e3a 0px, #c41e3a 20px, white 20px, white 40px);
+      height: 15px;
+      background-image:
+        linear-gradient(45deg, #c41e3a 25%, white 25%),
+        linear-gradient(-45deg, #c41e3a 25%, white 25%),
+        linear-gradient(45deg, white 75%, #c41e3a 75%),
+        linear-gradient(-45deg, white 75%, #c41e3a 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
       z-index: 1;
     }
 
     .header {
-      background: repeating-linear-gradient(45deg, #c41e3a 0px, #c41e3a 20px, white 20px, white 40px);
-      color: white;
+      background-image:
+        linear-gradient(45deg, #c41e3a 25%, white 25%),
+        linear-gradient(-45deg, #c41e3a 25%, white 25%),
+        linear-gradient(45deg, white 75%, #c41e3a 75%),
+        linear-gradient(-45deg, white 75%, #c41e3a 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
       padding: 30px;
       text-align: center;
       border-bottom: 4px solid #c41e3a;
@@ -132,7 +155,13 @@
       left: 20px;
       width: 36px;
       height: 36px;
-      background: repeating-linear-gradient(45deg, #c41e3a 0px, #c41e3a 8px, white 8px, white 16px);
+      background-image:
+        linear-gradient(45deg, #c41e3a 25%, white 25%),
+        linear-gradient(-45deg, #c41e3a 25%, white 25%),
+        linear-gradient(45deg, white 75%, #c41e3a 75%),
+        linear-gradient(-45deg, white 75%, #c41e3a 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
       border: 2px solid #c41e3a;
       border-radius: 50%;
       z-index: 1;
