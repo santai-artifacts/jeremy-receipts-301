@@ -620,6 +620,32 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #a01f20;
     }
+
+    .breakdown-section-header {
+      position: relative;
+      padding-top: 30px;
+      margin-bottom: 16px;
+    }
+
+    .spiral-coil {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .coil-ring {
+      width: 14px;
+      height: 14px;
+      border: 2.5px solid #c62828;
+      border-radius: 50%;
+    }
   </style>
 </head>
 <body>
@@ -736,9 +762,18 @@
 
         <!-- Per-Person Breakdown -->
         <div class="section" style="margin-top: 20px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <h2 class="section-title" style="margin-bottom: 0;">Who Owes What</h2>
-            <button class="btn btn-primary btn-small" onclick="copyBreakdown()" style="margin-top: 10px;">Copy</button>
+          <div class="breakdown-section-header">
+            <div class="spiral-coil">
+              <div class="coil-ring"></div>
+              <div class="coil-ring"></div>
+              <div class="coil-ring"></div>
+              <div class="coil-ring"></div>
+              <div class="coil-ring"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 class="section-title" style="margin-bottom: 0;">Who Owes What</h2>
+              <button class="btn btn-primary btn-small" onclick="copyBreakdown()" style="margin-top: 0;">Copy</button>
+            </div>
           </div>
           <div id="breakdownList" style="flex: 1; overflow-y: auto;">
             <div class="empty-state">
