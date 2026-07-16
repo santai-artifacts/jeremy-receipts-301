@@ -50,21 +50,6 @@
       position: relative;
     }
 
-    .container::before {
-      content: '';
-      position: absolute;
-      top: 44px;
-      left: 0;
-      right: 0;
-      height: 20px;
-      background-image:
-        linear-gradient(90deg, #c62828 50%, white 50%),
-        linear-gradient(white 50%, #c62828 50%);
-      background-size: 20px 20px;
-      background-position: 0 0, 10px 10px;
-      z-index: 2;
-    }
-
     .container::after {
       content: '';
       position: absolute;
@@ -90,20 +75,6 @@
       text-align: center;
       border-bottom: 4px solid #c62828;
       position: relative;
-      padding-top: 60px;
-    }
-
-    .header::before {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 0;
-      right: 0;
-      height: 36px;
-      background-image: url('data:image/svg+xml;utf8,<svg width="120" height="36" viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><defs><pattern id="coil" x="0" y="0" width="20" height="36" patternUnits="userSpaceOnUse"><g><circle cx="10" cy="10" r="5.5" fill="%23999" stroke="%23666" stroke-width="1"/><circle cx="10" cy="26" r="5.5" fill="%23999" stroke="%23666" stroke-width="1"/><path d="M 10 15 Q 12 18 10 21" stroke="%23666" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M 10 5 Q 12 2 10 1" stroke="%23666" stroke-width="1.5" fill="none" stroke-linecap="round"/></g></pattern></defs><rect width="120" height="36" fill="none"/><rect width="120" height="36" fill="url(%23coil)"/></svg>');
-      background-repeat: repeat-x;
-      background-size: 20px 36px;
-      z-index: 1;
     }
 
     .header h1 {
@@ -113,8 +84,6 @@
       font-weight: 700;
       text-shadow: 2px 2px 0 #333, -2px -2px 0 #333, 2px -2px 0 #333, -2px 2px 0 #333;
       color: white;
-      position: relative;
-      z-index: 2;
     }
 
     .header p {
@@ -123,8 +92,6 @@
       font-style: italic;
       color: white;
       text-shadow: 1px 1px 0 #333, -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333;
-      position: relative;
-      z-index: 2;
     }
 
     .content {
@@ -639,35 +606,17 @@
       background: #a01f20;
     }
 
-    .breakdown-section-header {
-      position: relative;
-      padding-top: 30px;
-      margin-bottom: 16px;
-    }
-
-    .spiral-coil {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
+    #spiralCoil {
+      display: block;
       width: 100%;
-      height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .coil-ring {
-      width: 14px;
-      height: 14px;
-      border: 2.5px solid #c62828;
-      border-radius: 50%;
+      height: 78px;
+      overflow: visible;
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <svg id="spiralCoil" xmlns="http://www.w3.org/2000/svg"></svg>
     <div class="header">
       <h1>Receipt Book</h1>
       <p>Keep track of who owes what</p>
@@ -780,18 +729,9 @@
 
         <!-- Per-Person Breakdown -->
         <div class="section" style="margin-top: 20px;">
-          <div class="breakdown-section-header">
-            <div class="spiral-coil">
-              <div class="coil-ring"></div>
-              <div class="coil-ring"></div>
-              <div class="coil-ring"></div>
-              <div class="coil-ring"></div>
-              <div class="coil-ring"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <h2 class="section-title" style="margin-bottom: 0;">Who Owes What</h2>
-              <button class="btn btn-primary btn-small" onclick="copyBreakdown()" style="margin-top: 0;">Copy</button>
-            </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h2 class="section-title" style="margin-bottom: 0;">Who Owes What</h2>
+            <button class="btn btn-primary btn-small" onclick="copyBreakdown()" style="margin-top: 10px;">Copy</button>
           </div>
           <div id="breakdownList" style="flex: 1; overflow-y: auto;">
             <div class="empty-state">
@@ -1230,6 +1170,66 @@
         alert('Failed to copy. Please try again.');
       });
     }
+
+    function drawSpiral() {
+      const svg = document.getElementById('spiralCoil');
+      if (!svg) return;
+      const W = svg.parentElement.getBoundingClientRect().width;
+      if (!W) return;
+      svg.setAttribute('viewBox', `0 0 ${W} 78`);
+      svg.setAttribute('preserveAspectRatio', 'none');
+
+      const HOLE_SP = 36;   // px between holes
+      const PAPER_Y = 62;   // y of paper surface / hole centers
+      const ARCH_TOP = 7;   // y at peak of front arches
+      const BACK_Y = 72;    // y at nadir of back arches
+      const numHoles = Math.ceil(W / HOLE_SP) + 2;
+      const el = [];
+
+      // Back arcs — behind paper, visible only as a faint hint below paper line
+      for (let i = 1; i < numHoles - 1; i += 2) {
+        const x1 = i * HOLE_SP, x2 = (i + 1) * HOLE_SP;
+        el.push(`<path d="M${x1},${PAPER_Y} C${x1},${BACK_Y} ${x2},${BACK_Y} ${x2},${PAPER_Y}" stroke="#b8b8b8" stroke-width="4.5" fill="none" stroke-linecap="round" opacity="0.45"/>`);
+      }
+
+      // Paper cover — hides most of back arcs, uses container background
+      el.push(`<rect x="-4" y="${PAPER_Y + 5}" width="${W + 8}" height="20" fill="#fffdf7"/>`);
+
+      // Front arches — drawn in 5 passes for 3D tube look
+      for (let i = 0; i < numHoles - 1; i += 2) {
+        const x1 = i * HOLE_SP, x2 = (i + 1) * HOLE_SP;
+        const cp = ARCH_TOP;
+
+        // 1. Drop shadow
+        el.push(`<path d="M${x1+2},${PAPER_Y+3} C${x1+2},${cp+5} ${x2+2},${cp+5} ${x2+2},${PAPER_Y+3}" stroke="#333" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.13"/>`);
+        // 2. Dark outer border (tube edge)
+        el.push(`<path d="M${x1},${PAPER_Y} C${x1},${cp} ${x2},${cp} ${x2},${PAPER_Y}" stroke="#4a4a4a" stroke-width="11" fill="none" stroke-linecap="round"/>`);
+        // 3. Main gray body
+        el.push(`<path d="M${x1},${PAPER_Y} C${x1},${cp} ${x2},${cp} ${x2},${PAPER_Y}" stroke="#a0a0a0" stroke-width="8.5" fill="none" stroke-linecap="round"/>`);
+        // 4. Mid highlight
+        el.push(`<path d="M${x1+2},${PAPER_Y-4} C${x1+3},${cp+8} ${x2-3},${cp+8} ${x2-2},${PAPER_Y-4}" stroke="#d0d0d0" stroke-width="4" fill="none" stroke-linecap="round"/>`);
+        // 5. Specular top highlight
+        el.push(`<path d="M${x1+4.5},${PAPER_Y-9} C${x1+5.5},${cp+13} ${x2-5.5},${cp+13} ${x2-4.5},${PAPER_Y-9}" stroke="#efefef" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.85"/>`);
+      }
+
+      // Holes
+      for (let i = 0; i < numHoles; i++) {
+        const x = i * HOLE_SP;
+        // Hole shadow
+        el.push(`<circle cx="${x+1.5}" cy="${PAPER_Y+2.5}" r="8" fill="rgba(0,0,0,0.18)"/>`);
+        // Hole white
+        el.push(`<circle cx="${x}" cy="${PAPER_Y}" r="7.5" fill="white" stroke="#c0c0c0" stroke-width="2"/>`);
+        // Wire cross-section dot
+        el.push(`<circle cx="${x}" cy="${PAPER_Y}" r="3.5" fill="#888" stroke="#555" stroke-width="1"/>`);
+        // Wire dot highlight
+        el.push(`<circle cx="${x - 1}" cy="${PAPER_Y - 1}" r="1.2" fill="#ccc"/>`);
+      }
+
+      svg.innerHTML = el.join('');
+    }
+
+    window.addEventListener('load', drawSpiral);
+    window.addEventListener('resize', drawSpiral);
 
     // Initial render
     renderPeople();
