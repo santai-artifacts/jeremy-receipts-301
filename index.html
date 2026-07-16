@@ -16,7 +16,7 @@
 
     body {
       font-family: 'Indie Flower', cursive;
-      background: linear-gradient(135deg, #f4e8d8 0%, #fef5e7 50%, #f9e4c8 100%);
+      background: linear-gradient(135deg, #faf6f1 0%, #fffbf5 50%, #f5f0eb 100%);
       min-height: 100vh;
       padding: 20px;
       background-attachment: fixed;
@@ -29,7 +29,8 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(184, 134, 11, 0.03) 2px, rgba(184, 134, 11, 0.03) 4px);
+      background-image: repeating-linear-gradient(45deg, #c41e3a 0px, #c41e3a 20px, white 20px, white 40px);
+      opacity: 0.08;
       pointer-events: none;
       z-index: -1;
     }
@@ -39,9 +40,9 @@
       margin: 0 auto;
       background: #fffdf7;
       border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(139, 69, 19, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      box-shadow: 0 15px 40px rgba(196, 30, 58, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
       overflow: hidden;
-      border: 3px solid #d4a574;
+      border: 4px solid #c41e3a;
       position: relative;
     }
 
@@ -51,38 +52,29 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 8px;
-      background: repeating-linear-gradient(90deg, #e8d5c4 0px, #e8d5c4 10px, #d4a574 10px, #d4a574 12px);
+      height: 12px;
+      background: repeating-linear-gradient(90deg, #c41e3a 0px, #c41e3a 20px, white 20px, white 40px);
+      z-index: 1;
+    }
+
+    .container::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 12px;
+      background: repeating-linear-gradient(90deg, #c41e3a 0px, #c41e3a 20px, white 20px, white 40px);
       z-index: 1;
     }
 
     .header {
-      background: linear-gradient(135deg, #d4a574 0%, #c9985a 100%);
-      color: #fffdf7;
+      background: repeating-linear-gradient(45deg, #c41e3a 0px, #c41e3a 20px, white 20px, white 40px);
+      color: white;
       padding: 30px;
       text-align: center;
-      border-bottom: 4px dashed #8b4513;
+      border-bottom: 4px solid #c41e3a;
       position: relative;
-    }
-
-    .header::after {
-      content: '🍳';
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 30px;
-      opacity: 0.6;
-    }
-
-    .header::before {
-      content: '👵';
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 30px;
-      opacity: 0.6;
     }
 
     .header h1 {
@@ -90,13 +82,17 @@
       font-size: 48px;
       margin-bottom: 8px;
       font-weight: 700;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      color: white;
+      text-stroke: 1px white;
+      -webkit-text-stroke: 1px white;
     }
 
     .header p {
       opacity: 0.95;
       font-size: 16px;
       font-style: italic;
+      color: white;
     }
 
     .content {
@@ -121,22 +117,23 @@
     .section {
       display: flex;
       flex-direction: column;
-      background: linear-gradient(135deg, #fffdf7 0%, #fef9f0 100%);
-      border: 2px solid #d4a574;
+      background: #fffdf7;
+      border: 3px solid #c41e3a;
       border-radius: 15px;
       padding: 20px;
       position: relative;
+      box-shadow: 0 4px 10px rgba(196, 30, 58, 0.1);
     }
 
     .section::before {
       content: '';
       position: absolute;
-      top: -15px;
+      top: -18px;
       left: 20px;
-      width: 30px;
-      height: 30px;
-      background: #fef5e7;
-      border: 2px solid #d4a574;
+      width: 36px;
+      height: 36px;
+      background: repeating-linear-gradient(45deg, #c41e3a 0px, #c41e3a 8px, white 8px, white 16px);
+      border: 2px solid #c41e3a;
       border-radius: 50%;
       z-index: 1;
     }
@@ -145,11 +142,11 @@
       font-family: 'Caveat', cursive;
       font-size: 28px;
       font-weight: 700;
-      color: #8b4513;
+      color: #c41e3a;
       margin-bottom: 16px;
       text-transform: none;
       letter-spacing: 1px;
-      border-bottom: 2px dashed #d4a574;
+      border-bottom: 3px dashed #c41e3a;
       padding-bottom: 10px;
       margin-top: 10px;
     }
@@ -176,7 +173,7 @@
       font-family: 'Indie Flower', cursive;
       font-size: 14px;
       font-weight: 600;
-      color: #8b4513;
+      color: #c41e3a;
       margin-bottom: 6px;
       text-transform: none;
       letter-spacing: 0px;
@@ -193,27 +190,27 @@
     input[type="number"],
     select {
       padding: 12px 14px;
-      border: 2px solid #d4a574;
+      border: 2px solid #c41e3a;
       border-radius: 12px;
       font-family: 'Indie Flower', cursive;
       font-size: 15px;
       transition: all 0.3s;
       flex: 1;
-      background: #fffef9;
+      background: #fffdf7;
     }
 
     input[type="text"]:focus,
     input[type="number"]:focus,
     select:focus {
       outline: none;
-      border-color: #c9985a;
-      background: #fffdf7;
-      box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.2);
+      border-color: #a01629;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.2);
     }
 
     .btn {
       padding: 11px 18px;
-      border: 2px solid #8b4513;
+      border: 2px solid #c41e3a;
       border-radius: 12px;
       font-family: 'Indie Flower', cursive;
       font-size: 15px;
@@ -224,14 +221,16 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #d4a574 0%, #c9985a 100%);
-      color: #fffdf7;
-      border-color: #8b4513;
+      background: #c41e3a;
+      color: white;
+      border-color: #c41e3a;
     }
 
     .btn-primary:hover {
+      background: #a01629;
+      border-color: #a01629;
       transform: translateY(-3px);
-      box-shadow: 0 8px 16px rgba(139, 69, 19, 0.2);
+      box-shadow: 0 8px 16px rgba(196, 30, 58, 0.2);
     }
 
     .btn-primary:active {
@@ -239,13 +238,13 @@
     }
 
     .btn-secondary {
-      background: #f9e4c8;
-      color: #8b4513;
-      border-color: #d4a574;
+      background: #f5f0eb;
+      color: #c41e3a;
+      border-color: #c41e3a;
     }
 
     .btn-secondary:hover {
-      background: #f5d9b8;
+      background: #ede5dd;
     }
 
     .btn-small {
@@ -273,20 +272,20 @@
     }
 
     .item-card {
-      background: linear-gradient(135deg, #fef9f0 0%, #fffdf7 100%);
-      border: 2px solid #d4a574;
+      background: #fffdf7;
+      border: 2px solid #c41e3a;
       border-radius: 12px;
       padding: 14px;
       position: relative;
-      box-shadow: 0 4px 8px rgba(139, 69, 19, 0.08);
+      box-shadow: 0 4px 8px rgba(196, 30, 58, 0.08);
     }
 
     .item-card::before {
-      content: '🥘';
+      content: '🍳';
       position: absolute;
       right: 12px;
       top: 12px;
-      opacity: 0.3;
+      opacity: 0.2;
       font-size: 18px;
     }
 
@@ -301,7 +300,7 @@
     .item-name {
       font-family: 'Caveat', cursive;
       font-weight: 700;
-      color: #5c2a23;
+      color: #c41e3a;
       font-size: 16px;
       flex: 1;
     }
@@ -310,13 +309,13 @@
       font-family: 'Caveat', cursive;
       font-size: 18px;
       font-weight: 700;
-      color: #8b4513;
+      color: #c41e3a;
     }
 
     .item-details {
       font-family: 'Indie Flower', cursive;
       font-size: 13px;
-      color: #8b4513;
+      color: #c41e3a;
       margin-bottom: 8px;
     }
 
@@ -328,13 +327,13 @@
     }
 
     .person-tag {
-      background: #f5d9b8;
-      border: 2px dashed #d4a574;
+      background: #fff5f0;
+      border: 2px dashed #c41e3a;
       border-radius: 8px;
       padding: 4px 10px;
       font-family: 'Indie Flower', cursive;
       font-size: 12px;
-      color: #5c2a23;
+      color: #c41e3a;
       display: flex;
       align-items: center;
       gap: 4px;
@@ -361,20 +360,20 @@
     }
 
     .person-card {
-      background: linear-gradient(135deg, #fef9f0 0%, #fffdf7 100%);
-      border: 2px dashed #d4a574;
+      background: #fffdf7;
+      border: 2px dashed #c41e3a;
       border-radius: 12px;
       padding: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 8px rgba(139, 69, 19, 0.08);
+      box-shadow: 0 4px 8px rgba(196, 30, 58, 0.08);
     }
 
     .person-name {
       font-family: 'Caveat', cursive;
       font-weight: 700;
-      color: #5c2a23;
+      color: #c41e3a;
       font-size: 16px;
       flex: 1;
     }
@@ -386,17 +385,18 @@
     }
 
     .summary-box {
-      background: linear-gradient(135deg, #fef5e7 0%, #fffdf7 100%);
+      background: #fffdf7;
       padding: 16px;
       border-radius: 12px;
-      border-left: 5px solid #d4a574;
-      box-shadow: 0 4px 8px rgba(139, 69, 19, 0.08);
+      border-left: 5px solid #c41e3a;
+      border: 2px solid #c41e3a;
+      box-shadow: 0 4px 8px rgba(196, 30, 58, 0.08);
     }
 
     .summary-label {
       font-family: 'Indie Flower', cursive;
       font-size: 13px;
-      color: #8b4513;
+      color: #c41e3a;
       margin-bottom: 6px;
       text-transform: none;
       font-weight: 600;
@@ -407,14 +407,15 @@
       font-family: 'Caveat', cursive;
       font-size: 32px;
       font-weight: 700;
-      color: #5c2a23;
+      color: #c41e3a;
     }
 
     .empty-state {
       text-align: center;
       padding: 30px 20px;
-      color: #a0826d;
+      color: #c41e3a;
       font-size: 14px;
+      opacity: 0.6;
     }
 
     .empty-state-icon {
@@ -424,8 +425,9 @@
 
     .currency {
       font-size: 0.85em;
-      color: #a0826d;
+      color: #c41e3a;
       margin-right: 2px;
+      opacity: 0.7;
     }
 
     .pricing-toggle {
@@ -437,21 +439,21 @@
     .toggle-btn {
       flex: 1;
       padding: 8px 12px;
-      border: 2px solid #d4a574;
-      background: #f9e4c8;
+      border: 2px solid #c41e3a;
+      background: #f5f0eb;
       border-radius: 10px;
       cursor: pointer;
       font-family: 'Indie Flower', cursive;
       font-size: 13px;
       font-weight: 600;
-      color: #8b4513;
+      color: #c41e3a;
       transition: all 0.2s;
     }
 
     .toggle-btn.active {
-      border-color: #8b4513;
-      background: #d4a574;
-      color: #fffdf7;
+      border-color: #c41e3a;
+      background: #c41e3a;
+      color: white;
     }
 
     .modal-overlay {
@@ -461,7 +463,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(139, 69, 19, 0.4);
+      background: rgba(196, 30, 58, 0.3);
       z-index: 1000;
       align-items: center;
       justify-content: center;
@@ -473,22 +475,22 @@
     }
 
     .modal {
-      background: linear-gradient(135deg, #fffdf7 0%, #fef9f0 100%);
+      background: #fffdf7;
       border-radius: 16px;
       padding: 30px;
       max-width: 420px;
       width: 90%;
       max-height: 80vh;
       overflow-y: auto;
-      border: 3px solid #d4a574;
-      box-shadow: 0 20px 40px rgba(139, 69, 19, 0.25);
+      border: 3px solid #c41e3a;
+      box-shadow: 0 20px 40px rgba(196, 30, 58, 0.25);
     }
 
     .modal-title {
       font-family: 'Caveat', cursive;
       font-size: 26px;
       font-weight: 700;
-      color: #5c2a23;
+      color: #c41e3a;
       margin-bottom: 20px;
     }
 
@@ -509,7 +511,7 @@
       cursor: pointer;
       width: 20px;
       height: 20px;
-      accent-color: #d4a574;
+      accent-color: #c41e3a;
     }
 
     .checkbox-item label {
@@ -517,7 +519,7 @@
       cursor: pointer;
       font-family: 'Indie Flower', cursive;
       font-size: 15px;
-      color: #5c2a23;
+      color: #c41e3a;
     }
 
     .modal-buttons {
@@ -527,18 +529,18 @@
     }
 
     .person-breakdown {
-      background: linear-gradient(135deg, #fef9f0 0%, #fffdf7 100%);
-      border: 2px solid #d4a574;
+      background: #fffdf7;
+      border: 2px solid #c41e3a;
       border-radius: 12px;
       padding: 14px;
       margin-bottom: 10px;
-      box-shadow: 0 4px 8px rgba(139, 69, 19, 0.08);
+      box-shadow: 0 4px 8px rgba(196, 30, 58, 0.08);
     }
 
     .person-breakdown-name {
       font-family: 'Caveat', cursive;
       font-weight: 700;
-      color: #5c2a23;
+      color: #c41e3a;
       font-size: 18px;
       margin-bottom: 6px;
     }
@@ -546,7 +548,7 @@
     .person-breakdown-items {
       font-family: 'Indie Flower', cursive;
       font-size: 12px;
-      color: #8b4513;
+      color: #c41e3a;
       margin-bottom: 8px;
       line-height: 1.4;
     }
@@ -555,19 +557,19 @@
       display: flex;
       justify-content: space-between;
       padding-top: 8px;
-      border-top: 2px dashed #d4a574;
+      border-top: 2px dashed #c41e3a;
     }
 
     .person-breakdown-subtotal {
       font-family: 'Indie Flower', cursive;
       font-size: 12px;
-      color: #8b4513;
+      color: #c41e3a;
     }
 
     .person-breakdown-total {
       font-family: 'Caveat', cursive;
       font-weight: 700;
-      color: #d4a574;
+      color: #c41e3a;
       font-size: 20px;
     }
 
@@ -588,24 +590,24 @@
     }
 
     ::-webkit-scrollbar-track {
-      background: #f9e4c8;
+      background: #f5f0eb;
       border-radius: 10px;
     }
 
     ::-webkit-scrollbar-thumb {
-      background: #d4a574;
+      background: #c41e3a;
       border-radius: 10px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: #c9985a;
+      background: #a01629;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>Grandma's Receipt Book</h1>
+      <h1>Receipt Book</h1>
       <p>Keep track of who owes what</p>
     </div>
 
@@ -622,7 +624,7 @@
           </div>
           <div class="people-list" id="peopleList">
             <div class="empty-state">
-              <div class="empty-state-icon">👵</div>
+              <div class="empty-state-icon">👤</div>
               <p>Add people to get started</p>
             </div>
           </div>
@@ -659,7 +661,7 @@
 
           <div class="item-list" id="itemList" style="margin-top: 20px;">
             <div class="empty-state">
-              <div class="empty-state-icon">🥘</div>
+              <div class="empty-state-icon">🍴</div>
               <p>Add items to get started</p>
             </div>
           </div>
@@ -707,7 +709,7 @@
               <div class="summary-label">Tip</div>
               <div class="summary-value"><span class="currency">$</span><span id="tipDisplay">0.00</span></div>
             </div>
-            <div class="summary-box" style="border-left-color: #c9985a;">
+            <div class="summary-box" style="border-left-color: #c41e3a;">
               <div class="summary-label">Total</div>
               <div class="summary-value"><span class="currency">$</span><span id="total">0.00</span></div>
             </div>
@@ -716,10 +718,10 @@
 
         <!-- Per-Person Breakdown -->
         <div class="section" style="margin-top: 20px;">
-          <h2 class="section-title">👛 Who Owes What</h2>
+          <h2 class="section-title">📝 Who Owes What</h2>
           <div id="breakdownList" style="flex: 1; overflow-y: auto;">
             <div class="empty-state">
-              <div class="empty-state-icon">📝</div>
+              <div class="empty-state-icon">📋</div>
               <p>Breakdown will appear here</p>
             </div>
           </div>
@@ -939,7 +941,7 @@
         `;
       }).join('');
 
-      document.getElementById('modalCheckboxes').innerHTML = checkboxesHtml || '<p style="color: #a0826d; font-size: 13px;">Add people first</p>';
+      document.getElementById('modalCheckboxes').innerHTML = checkboxesHtml || '<p style="color: #c41e3a; font-size: 13px; opacity: 0.6;">Add people first</p>';
       document.getElementById('assignModal').classList.add('active');
     }
 
@@ -962,7 +964,7 @@
     function renderPeople() {
       const list = document.getElementById('peopleList');
       if (people.length === 0) {
-        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👵</div><p>Add people to get started</p></div>';
+        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👤</div><p>Add people to get started</p></div>';
         return;
       }
 
@@ -977,7 +979,7 @@
     function renderItemList() {
       const list = document.getElementById('itemList');
       if (items.length === 0) {
-        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🥘</div><p>Add items to get started</p></div>';
+        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🍴</div><p>Add items to get started</p></div>';
         return;
       }
 
@@ -1091,7 +1093,7 @@
       const validPeople = Object.values(breakdown).filter(person => person.subtotal > 0);
 
       if (validPeople.length === 0) {
-        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📝</div><p>Breakdown will appear here</p></div>';
+        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Breakdown will appear here</p></div>';
         return;
       }
 
