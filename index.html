@@ -53,7 +53,7 @@
     .container::before {
       content: '';
       position: absolute;
-      top: 20px;
+      top: 44px;
       left: 0;
       right: 0;
       height: 20px;
@@ -62,7 +62,7 @@
         linear-gradient(white 50%, #c62828 50%);
       background-size: 20px 20px;
       background-position: 0 0, 10px 10px;
-      z-index: 1;
+      z-index: 2;
     }
 
     .container::after {
@@ -96,28 +96,14 @@
     .header::before {
       content: '';
       position: absolute;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(100% - 40px);
-      height: 28px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: repeating-linear-gradient(
-        90deg,
-        #c62828 0px,
-        #c62828 3px,
-        transparent 3px,
-        transparent 8px,
-        #c62828 8px,
-        #c62828 11px,
-        transparent 11px,
-        transparent 16px
-      );
-      background-size: 16px 28px;
-      background-position: 0 0;
+      top: 8px;
+      left: 0;
+      right: 0;
+      height: 36px;
+      background-image: url('data:image/svg+xml;utf8,<svg width="120" height="36" viewBox="0 0 120 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><defs><pattern id="coil" x="0" y="0" width="20" height="36" patternUnits="userSpaceOnUse"><g><circle cx="10" cy="10" r="5.5" fill="%23999" stroke="%23666" stroke-width="1"/><circle cx="10" cy="26" r="5.5" fill="%23999" stroke="%23666" stroke-width="1"/><path d="M 10 15 Q 12 18 10 21" stroke="%23666" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M 10 5 Q 12 2 10 1" stroke="%23666" stroke-width="1.5" fill="none" stroke-linecap="round"/></g></pattern></defs><rect width="120" height="36" fill="none"/><rect width="120" height="36" fill="url(%23coil)"/></svg>');
       background-repeat: repeat-x;
+      background-size: 20px 36px;
+      z-index: 1;
     }
 
     .header h1 {
