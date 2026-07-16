@@ -19,7 +19,7 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
       background: white;
       border-radius: 16px;
@@ -47,8 +47,14 @@
     .content {
       padding: 30px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 30px;
+    }
+
+    @media (max-width: 1024px) {
+      .content {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     @media (max-width: 768px) {
@@ -116,6 +122,7 @@
       font-size: 14px;
       font-family: inherit;
       transition: all 0.2s;
+      flex: 1;
     }
 
     input[type="text"]:focus,
@@ -124,11 +131,6 @@
       outline: none;
       border-color: #667eea;
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-
-    input[type="text"],
-    input[type="number"] {
-      flex: 1;
     }
 
     .btn {
@@ -165,11 +167,14 @@
       background: #e2e8f0;
     }
 
+    .btn-small {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
     .btn-danger {
       background: #fc8181;
       color: white;
-      padding: 6px 10px;
-      font-size: 12px;
     }
 
     .btn-danger:hover {
@@ -180,6 +185,9 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 600px;
     }
 
     .item-card {
@@ -187,40 +195,77 @@
       border: 1px solid #e2e8f0;
       border-radius: 8px;
       padding: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
     }
 
-    .item-info {
-      flex: 1;
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
     }
 
     .item-name {
       font-weight: 600;
       color: #2d3748;
       font-size: 14px;
+      flex: 1;
+    }
+
+    .item-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #667eea;
     }
 
     .item-details {
       font-size: 12px;
       color: #718096;
-      margin-top: 4px;
+      margin-bottom: 8px;
     }
 
-    .item-price {
-      font-size: 16px;
-      font-weight: 700;
-      color: #667eea;
-      text-align: right;
-      min-width: 70px;
+    .item-persons {
+      flex-wrap: wrap;
+      gap: 6px;
+      display: flex;
+    }
+
+    .person-tag {
+      background: white;
+      border: 1px solid #cbd5e0;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      color: #2d3748;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .person-tag .remove {
+      cursor: pointer;
+      font-weight: bold;
+      color: #a0aec0;
+      hover: color #718096;
+    }
+
+    .person-tag .remove:hover {
+      color: #718096;
+    }
+
+    .assign-persons-btn {
+      font-size: 11px;
+      padding: 4px 8px;
+      margin-top: 6px;
     }
 
     .people-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 600px;
     }
 
     .person-card {
@@ -233,44 +278,17 @@
       align-items: center;
     }
 
-    .person-info {
-      flex: 1;
-    }
-
     .person-name {
       font-weight: 600;
       color: #2d3748;
       font-size: 14px;
-    }
-
-    .person-items {
-      font-size: 12px;
-      color: #718096;
-      margin-top: 4px;
-    }
-
-    .person-total {
-      text-align: right;
-    }
-
-    .person-subtotal {
-      font-size: 12px;
-      color: #718096;
-    }
-
-    .person-amount {
-      font-size: 18px;
-      font-weight: 700;
-      color: #667eea;
+      flex: 1;
     }
 
     .summary-section {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 16px;
-      padding-top: 20px;
-      border-top: 2px solid #e2e8f0;
     }
 
     .summary-box {
@@ -297,13 +315,14 @@
 
     .empty-state {
       text-align: center;
-      padding: 30px 20px;
+      padding: 20px;
       color: #a0aec0;
+      font-size: 13px;
     }
 
     .empty-state-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
+      font-size: 28px;
+      margin-bottom: 8px;
     }
 
     .currency {
@@ -312,17 +331,76 @@
       margin-right: 2px;
     }
 
-    .checkbox-wrapper {
+    .pricing-toggle {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 8px;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: 2px solid #e2e8f0;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: #718096;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn.active {
+      border-color: #667eea;
+      background: #667eea;
+      color: white;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 20px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
     .checkbox-item {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
     }
 
     input[type="checkbox"] {
@@ -335,16 +413,52 @@
     .checkbox-item label {
       margin: 0;
       cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-      text-transform: none;
-      letter-spacing: normal;
+      font-size: 14px;
+      color: #2d3748;
     }
 
-    .tax-tip-group {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .person-breakdown {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .person-breakdown-name {
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 4px;
+    }
+
+    .person-breakdown-items {
+      font-size: 11px;
+      color: #718096;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .person-breakdown-amounts {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 6px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .person-breakdown-subtotal {
+      font-size: 12px;
+      color: #718096;
+    }
+
+    .person-breakdown-total {
+      font-weight: 700;
+      color: #667eea;
     }
   </style>
 </head>
@@ -356,15 +470,14 @@
     </div>
 
     <div class="content">
-      <!-- Left Column: Add Items and People -->
+      <!-- Column 1: Add People -->
       <div>
-        <!-- Add People Section -->
         <div class="section">
           <h2 class="section-title">People</h2>
           <div class="form-group full">
             <div class="input-wrapper">
-              <input type="text" id="personName" placeholder="Enter person's name (e.g., Alice)" />
-              <button class="btn btn-primary" onclick="addPerson()">Add Person</button>
+              <input type="text" id="personName" placeholder="e.g., Alice" />
+              <button class="btn btn-primary btn-small" onclick="addPerson()">Add</button>
             </div>
           </div>
           <div class="people-list" id="peopleList">
@@ -374,79 +487,87 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Add Items Section -->
-        <div class="section" style="margin-top: 30px;">
+      <!-- Column 2: Add Items -->
+      <div>
+        <div class="section">
           <h2 class="section-title">Items</h2>
+
           <div class="form-group full">
             <label>Item Name</label>
             <input type="text" id="itemName" placeholder="e.g., Caesar Salad" />
           </div>
-          <div class="form-group full">
-            <label>Price</label>
-            <input type="number" id="itemPrice" placeholder="12.50" min="0" step="0.01" />
-          </div>
+
           <div class="form-group full">
             <label>Quantity</label>
             <input type="number" id="itemQuantity" value="1" min="1" step="1" />
           </div>
-          <div class="form-group full">
-            <label>Who had this?</label>
-            <div class="checkbox-wrapper" id="itemPersons"></div>
+
+          <label>Price</label>
+          <div class="pricing-toggle">
+            <button class="toggle-btn active" onclick="setPricingMode('individual')">Price Each</button>
+            <button class="toggle-btn" onclick="setPricingMode('total')">Total Price</button>
           </div>
+
+          <div class="form-group full">
+            <label id="priceLabel">Price per item</label>
+            <input type="number" id="itemPrice" placeholder="12.50" min="0" step="0.01" />
+          </div>
+
           <button class="btn btn-primary" onclick="addItem()" style="align-self: flex-start;">Add Item</button>
 
           <div class="item-list" id="itemList" style="margin-top: 20px;">
             <div class="empty-state">
               <div class="empty-state-icon">🍽️</div>
-              <p>Add items to calculate</p>
+              <p>Add items to get started</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Right Column: Summary -->
+      <!-- Column 3: Summary & Breakdown -->
       <div>
-        <!-- Tax & Tip Section -->
+        <!-- Settings -->
         <div class="section">
           <h2 class="section-title">Settings</h2>
-          <div class="tax-tip-group">
-            <div class="form-group full">
-              <label>Tax (%)</label>
-              <input type="number" id="taxPercent" value="0" min="0" max="100" step="0.1" onchange="calculate()" />
-            </div>
-            <div class="form-group full">
-              <label>Tip (%)</label>
-              <input type="number" id="tipPercent" value="0" min="0" max="100" step="0.1" onchange="calculate()" />
-            </div>
+          <div class="form-group full">
+            <label>Tax (%)</label>
+            <input type="number" id="taxPercent" value="0" min="0" max="100" step="0.1" onchange="calculate()" />
+          </div>
+          <div class="form-group full">
+            <label>Tip (%)</label>
+            <input type="number" id="tipPercent" value="0" min="0" max="100" step="0.1" onchange="calculate()" />
           </div>
         </div>
 
-        <!-- Summary Section -->
-        <div class="section" style="margin-top: 30px;">
+        <!-- Summary -->
+        <div class="section" style="margin-top: 20px;">
           <h2 class="section-title">Summary</h2>
-          <div class="summary-box">
-            <div class="summary-label">Subtotal</div>
-            <div class="summary-value"><span class="currency">$</span><span id="subtotal">0.00</span></div>
-          </div>
-          <div class="summary-box">
-            <div class="summary-label">Tax</div>
-            <div class="summary-value"><span class="currency">$</span><span id="taxAmount">0.00</span></div>
-          </div>
-          <div class="summary-box">
-            <div class="summary-label">Tip</div>
-            <div class="summary-value"><span class="currency">$</span><span id="tipAmount">0.00</span></div>
-          </div>
-          <div class="summary-box" style="border-left-color: #764ba2;">
-            <div class="summary-label">Total</div>
-            <div class="summary-value"><span class="currency">$</span><span id="total">0.00</span></div>
+          <div class="summary-section">
+            <div class="summary-box">
+              <div class="summary-label">Subtotal</div>
+              <div class="summary-value"><span class="currency">$</span><span id="subtotal">0.00</span></div>
+            </div>
+            <div class="summary-box">
+              <div class="summary-label">Tax</div>
+              <div class="summary-value"><span class="currency">$</span><span id="taxAmount">0.00</span></div>
+            </div>
+            <div class="summary-box">
+              <div class="summary-label">Tip</div>
+              <div class="summary-value"><span class="currency">$</span><span id="tipAmount">0.00</span></div>
+            </div>
+            <div class="summary-box" style="border-left-color: #764ba2;">
+              <div class="summary-label">Total</div>
+              <div class="summary-value"><span class="currency">$</span><span id="total">0.00</span></div>
+            </div>
           </div>
         </div>
 
-        <!-- People Breakdown -->
-        <div class="section" style="margin-top: 30px;">
+        <!-- Per-Person Breakdown -->
+        <div class="section" style="margin-top: 20px;">
           <h2 class="section-title">Each Person Owes</h2>
-          <div class="people-list" id="breakdownList">
+          <div id="breakdownList" style="flex: 1; overflow-y: auto;">
             <div class="empty-state">
               <div class="empty-state-icon">📊</div>
               <p>Breakdown will appear here</p>
@@ -457,9 +578,32 @@
     </div>
   </div>
 
+  <!-- Modal for assigning people to items -->
+  <div class="modal-overlay" id="assignModal">
+    <div class="modal">
+      <div class="modal-title" id="modalTitle">Assign to people</div>
+      <div class="checkbox-group" id="modalCheckboxes"></div>
+      <div class="modal-buttons">
+        <button class="btn btn-secondary btn-small" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary btn-small" onclick="saveAssignment()">Done</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let people = [];
     let items = [];
+    let pricingMode = 'individual';
+    let currentEditingItemId = null;
+
+    function setPricingMode(mode) {
+      pricingMode = mode;
+      const label = document.getElementById('priceLabel');
+      label.textContent = mode === 'individual' ? 'Price per item' : 'Total price for all';
+
+      document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
 
     function addPerson() {
       const input = document.getElementById('personName');
@@ -472,7 +616,8 @@
 
       people.push({ id: Date.now(), name });
       input.value = '';
-      render();
+      renderPeople();
+      renderItemList();
       calculate();
     }
 
@@ -482,7 +627,8 @@
         ...item,
         persons: item.persons.filter(pid => pid !== id)
       }));
-      render();
+      renderPeople();
+      renderItemList();
       calculate();
     }
 
@@ -490,50 +636,77 @@
       const name = document.getElementById('itemName').value.trim();
       const price = parseFloat(document.getElementById('itemPrice').value);
       const quantity = parseInt(document.getElementById('itemQuantity').value);
-      const selectedPersons = Array.from(document.querySelectorAll('#itemPersons input:checked')).map(cb => parseInt(cb.value));
 
       if (!name) {
         alert('Please enter an item name');
         return;
       }
 
-      if (!price || price <= 0) {
+      if (!price || price < 0) {
         alert('Please enter a valid price');
         return;
       }
 
-      if (selectedPersons.length === 0) {
-        alert('Please select at least one person');
-        return;
+      let unitPrice = price;
+      if (pricingMode === 'total') {
+        unitPrice = price / quantity;
       }
 
       items.push({
         id: Date.now(),
         name,
-        price,
+        unitPrice,
         quantity,
-        persons: selectedPersons
+        persons: []
       });
 
       document.getElementById('itemName').value = '';
       document.getElementById('itemPrice').value = '';
       document.getElementById('itemQuantity').value = '1';
-      document.querySelectorAll('#itemPersons input').forEach(cb => cb.checked = false);
 
-      render();
+      renderItemList();
       calculate();
     }
 
     function removeItem(id) {
       items = items.filter(item => item.id !== id);
-      render();
+      renderItemList();
       calculate();
     }
 
-    function render() {
-      renderPeople();
-      renderItems();
-      renderPersonCheckboxes();
+    function openAssignModal(itemId) {
+      currentEditingItemId = itemId;
+      const item = items.find(i => i.id === itemId);
+      document.getElementById('modalTitle').textContent = `Assign "${item.name}" to people`;
+
+      const checkboxesHtml = people.map(person => {
+        const isChecked = item.persons.includes(person.id);
+        return `
+          <div class="checkbox-item">
+            <input type="checkbox" id="assign_${person.id}" value="${person.id}" ${isChecked ? 'checked' : ''} />
+            <label for="assign_${person.id}">${person.name}</label>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('modalCheckboxes').innerHTML = checkboxesHtml || '<p style="color: #a0aec0; font-size: 13px;">Add people first</p>';
+      document.getElementById('assignModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('assignModal').classList.remove('active');
+      currentEditingItemId = null;
+    }
+
+    function saveAssignment() {
+      const selectedPersons = Array.from(document.querySelectorAll('#modalCheckboxes input:checked')).map(cb => parseInt(cb.value));
+      const item = items.find(i => i.id === currentEditingItemId);
+      if (item) {
+        item.persons = selectedPersons;
+      }
+      closeModal();
+      renderItemList();
+      calculate();
     }
 
     function renderPeople() {
@@ -545,59 +718,49 @@
 
       list.innerHTML = people.map(person => `
         <div class="person-card">
-          <div class="person-info">
-            <div class="person-name">${person.name}</div>
-          </div>
-          <button class="btn btn-danger" onclick="removePerson(${person.id})">Remove</button>
+          <div class="person-name">${person.name}</div>
+          <button class="btn btn-danger btn-small" onclick="removePerson(${person.id})">Remove</button>
         </div>
       `).join('');
     }
 
-    function renderItems() {
+    function renderItemList() {
       const list = document.getElementById('itemList');
       if (items.length === 0) {
-        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🍽️</div><p>Add items to calculate</p></div>';
+        list.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🍽️</div><p>Add items to get started</p></div>';
         return;
       }
 
       list.innerHTML = items.map(item => {
-        const personNames = item.persons.map(pid => people.find(p => p.id === pid)?.name).filter(Boolean).join(', ');
-        const total = (item.price * item.quantity).toFixed(2);
+        const personNames = item.persons.map(pid => people.find(p => p.id === pid)?.name).filter(Boolean);
+        const total = (item.unitPrice * item.quantity).toFixed(2);
+
         return `
           <div class="item-card">
-            <div class="item-info">
+            <div class="item-header">
               <div class="item-name">${item.name}</div>
-              <div class="item-details">
-                $${item.price.toFixed(2)} × ${item.quantity} • ${personNames}
-              </div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
               <div class="item-price">$${total}</div>
-              <button class="btn btn-danger" onclick="removeItem(${item.id})">×</button>
+              <button class="btn btn-danger btn-small" onclick="removeItem(${item.id})">×</button>
             </div>
+            <div class="item-details">
+              $${item.unitPrice.toFixed(2)} × ${item.quantity}
+            </div>
+            ${personNames.length > 0 ? `
+              <div class="item-persons">
+                ${personNames.map(name => `<div class="person-tag">${name}</div>`).join('')}
+              </div>
+            ` : ''}
+            <button class="btn btn-secondary btn-small assign-persons-btn" onclick="openAssignModal(${item.id})">
+              ${personNames.length > 0 ? 'Edit people' : 'Assign people'}
+            </button>
           </div>
         `;
       }).join('');
     }
 
-    function renderPersonCheckboxes() {
-      const wrapper = document.getElementById('itemPersons');
-      if (people.length === 0) {
-        wrapper.innerHTML = '<p style="font-size: 12px; color: #a0aec0;">Add people first</p>';
-        return;
-      }
-
-      wrapper.innerHTML = people.map(person => `
-        <div class="checkbox-item">
-          <input type="checkbox" id="person_${person.id}" value="${person.id}" />
-          <label for="person_${person.id}">${person.name}</label>
-        </div>
-      `).join('');
-    }
-
     function calculate() {
       // Calculate subtotal
-      const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const subtotal = items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
 
       // Calculate tax and tip
       const taxPercent = parseFloat(document.getElementById('taxPercent').value) || 0;
@@ -620,13 +783,15 @@
       });
 
       items.forEach(item => {
-        const itemTotal = item.price * item.quantity;
-        const splitAmount = itemTotal / item.persons.length;
+        if (item.persons.length > 0) {
+          const itemTotal = item.unitPrice * item.quantity;
+          const splitAmount = itemTotal / item.persons.length;
 
-        item.persons.forEach(personId => {
-          breakdown[personId].subtotal += splitAmount;
-          breakdown[personId].items.push(`${item.name} (${item.quantity})`);
-        });
+          item.persons.forEach(personId => {
+            breakdown[personId].subtotal += splitAmount;
+            breakdown[personId].items.push(`${item.name} (${item.quantity})`);
+          });
+        }
       });
 
       // Apply tax and tip proportionally
@@ -651,28 +816,26 @@
       }
 
       list.innerHTML = validPeople.map(person => `
-        <div class="person-card">
-          <div class="person-info">
-            <div class="person-name">${person.name}</div>
-            <div class="person-items" style="font-size: 11px; max-height: 40px; overflow: hidden;">
-              ${person.items.join(', ')}
-            </div>
+        <div class="person-breakdown">
+          <div class="person-breakdown-name">${person.name}</div>
+          <div class="person-breakdown-items">
+            ${person.items.join(', ') || 'No items assigned'}
           </div>
-          <div class="person-total">
-            <div class="person-subtotal">
-              Subtotal: $${person.subtotal.toFixed(2)}
+          <div class="person-breakdown-amounts">
+            <div class="person-breakdown-subtotal">
+              Subtotal: $${person.subtotal.toFixed(2)}<br/>
+              Tax & Tip: $${(person.tax + person.tip).toFixed(2)}
             </div>
-            <div class="person-subtotal">
-              Tax: $${person.tax.toFixed(2)} + Tip: $${person.tip.toFixed(2)}
-            </div>
-            <div class="person-amount">$${person.total.toFixed(2)}</div>
+            <div class="person-breakdown-total">$${person.total.toFixed(2)}</div>
           </div>
         </div>
       `).join('');
     }
 
     // Initial render
-    render();
+    renderPeople();
+    renderItemList();
+    calculate();
   </script>
 </body>
 </html>
